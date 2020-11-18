@@ -74,7 +74,7 @@ def main():
     print(len(src_files))
     for source in src_files.values():
         print(source.src_id)
-        print((source.src_all))
+        print(len(source.src_all))
         break
 
     for bug in bug_reports.values():
