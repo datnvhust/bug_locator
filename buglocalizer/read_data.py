@@ -74,13 +74,15 @@ def main():
     print(len(src_files))
     for source in src_files.values():
         print(source.src_id)
+        x = source.src_all.sort()
+        print(source.src_all)
         print(len(source.src_all))
         break
 
-    for bug in bug_reports.values():
-        print(bug.bug_id)
-        print((bug.summary))
-        break
+    # for bug in bug_reports.values():
+    #     print(bug.bug_id)
+    #     print((bug.summary))
+    #     break
     
     # sm = Similarity(src_files)
     # simis = sm.find_similars(bug_reports)

@@ -174,16 +174,16 @@ class ReportPreprocessing:
     def preprocess(self):
         """Run the preprocessing"""
         
-        # self.extract_stack_traces()
-        # self.pos_tagging()
-        # self.tokenize()
-        # self.split_camelcase()
-        # self.normalize()
-        # self.remove_stopwords()
-        # self.remove_java_keywords()
-        # self.stem()
-        for bug in self.bug_reports.values():
-            bug.summary = preprocess(bug.summary + bug.description)
+        self.extract_stack_traces()
+        self.pos_tagging()
+        self.tokenize()
+        self.split_camelcase()
+        self.normalize()
+        self.remove_stopwords()
+        self.remove_java_keywords()
+        self.stem()
+        # for bug in self.bug_reports.values():
+        #     bug.summary = preprocess(bug.summary + bug.description)
 
 class SrcPreprocessing:
     """Class to preprocess source codes"""
@@ -211,7 +211,7 @@ class SrcPreprocessing:
         for src in self.src_files.values():
             src.all_content = nltk.wordpunct_tokenize(src.all_content)
             src.comments = nltk.wordpunct_tokenize(src.comments)
-            src.src_all = nltk.wordpunct_tokenize(src.src_all)
+            # src.src_all = nltk.wordpunct_tokenize(src.src_all)
     
     def _split_camelcase(self, tokens):
     
@@ -251,7 +251,7 @@ class SrcPreprocessing:
             src.variables = self._split_camelcase(src.variables)
             src.file_name = self._split_camelcase(src.file_name)
             src.pos_tagged_comments = self._split_camelcase(src.pos_tagged_comments)
-            src.src_all = self._split_camelcase(src.src_all)
+            # src.src_all = self._split_camelcase(src.src_all)
             
     def normalize(self):
         """Removing punctuation, numbers and also lowercase conversion"""
@@ -276,8 +276,8 @@ class SrcPreprocessing:
                                      for token in src.file_name]
             pos_comments_punctnum_rem = [token.translate(punctnum_table)
                                          for token in src.pos_tagged_comments]
-            all_punctnum_rem = [token.translate(punctnum_table)
-                                    for token in src.src_all]
+            # all_punctnum_rem = [token.translate(punctnum_table)
+                                    # for token in src.src_all]
             
             src.all_content = [token.lower() for token
                                in content_punctnum_rem if token]
@@ -295,8 +295,8 @@ class SrcPreprocessing:
                              in filename_punctnum_rem if token]
             src.pos_tagged_comments = [token.lower() for token
                                        in pos_comments_punctnum_rem if token]
-            src.src_all = [token.lower() for token
-                               in all_punctnum_rem if token]
+            # src.src_all = [token.lower() for token
+                            #    in all_punctnum_rem if token]
             
     def remove_stopwords(self):
         """Removing stop words from tokens"""
@@ -318,8 +318,8 @@ class SrcPreprocessing:
                              if token not in stop_words]
             src.pos_tagged_comments = [token for token in src.pos_tagged_comments
                                        if token not in stop_words]
-            src.src_all = [token for token in src.src_all
-                               if token not in stop_words]
+            # src.src_all = [token for token in src.src_all
+                            #    if token not in stop_words]
 
     def remove_java_keywords(self):
         """Removing Java language keywords from tokens"""
@@ -341,8 +341,8 @@ class SrcPreprocessing:
                              if token not in java_keywords]
             src.pos_tagged_comments = [token for token in src.pos_tagged_comments
                                        if token not in java_keywords]
-            src.src_all = [token for token in src.src_all
-                               if token not in java_keywords]
+            # src.src_all = [token for token in src.src_all
+            #                    if token not in java_keywords]
 
     def stem(self):
         """Stemming tokens"""
@@ -382,20 +382,20 @@ class SrcPreprocessing:
             src.pos_tagged_comments = dict(zip(['stemmed', 'unstemmed'],
                                       [[stemmer.stem(token) for token in src.pos_tagged_comments],
                                        src.pos_tagged_comments]))
-            src.src_all = dict(zip(['stemmed', 'unstemmed'],
-                                       [[stemmer.stem(token) for token in src.src_all],
-                                        src.src_all]))
+            # src.src_all = dict(zip(['stemmed', 'unstemmed'],
+            #                            [[stemmer.stem(token) for token in src.src_all],
+            #                             src.src_all]))
 
     def preprocess(self):
         """Run the preprocessing"""
         
-        # self.pos_tagging()
-        # self.tokenize()        
-        # self.split_camelcase()
-        # self.normalize()
-        # self.remove_stopwords()
-        # self.remove_java_keywords()
-        # self.stem()
+        self.pos_tagging()
+        self.tokenize()        
+        self.split_camelcase()
+        self.normalize()
+        self.remove_stopwords()
+        self.remove_java_keywords()
+        self.stem()
         # for src in self.src_files.values():
         #     src.src_all = preprocess(src.src_all)
             

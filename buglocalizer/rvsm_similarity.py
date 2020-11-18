@@ -14,12 +14,15 @@ def getVocab(src_files, bug_reports, alpha):
     vocab = []
     docs_report = []
     docs_source = []
+    vocab_report = []
     for report in bug_reports.values():
         docs_report__ = {}
         data = report.summary
         for word in data:
             if word not in vocab:
                 vocab.append(word)
+            if word not in vocab_report:
+                vocab_report.append(word)
 
             if word in docs_report__.keys():
                 docs_report__[word] += 1
@@ -41,6 +44,7 @@ def getVocab(src_files, bug_reports, alpha):
         docs_source.append(docs_source_)
         
     print(len(vocab))
+    print(len(vocab_report))
     tfidf = TFIDFVectorizer()
     report_idf = []
     for doc in docs_report:

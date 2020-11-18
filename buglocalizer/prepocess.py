@@ -48,10 +48,10 @@ def clean_sent(string):
 def tokenize(sent):
     """Tokenizing bug reports into tokens"""
     sent = clean_sent(sent)
-    sent = split_camelcase(sent)
+    # sent = split_camelcase(sent)
     sent_tokens = nltk.regexp_tokenize(sent,pattern = '\w+|$[\d\.]+|\S+')
 
-    sent_tokens = sent_tokens[2:]
+    # sent_tokens = sent_tokens[2:]
     return sent_tokens
 
 def split_camelcase(sent):

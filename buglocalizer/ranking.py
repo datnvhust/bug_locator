@@ -4,7 +4,8 @@ import numpy as np
 
 def main():
     # file_ = 'module3_' + str(alpha) + '.json'
-    with open(DATASET.root / 'rvsm_similarity.json', 'rb') as file:
+    # with open(DATASET.root / 'rvsm_similarity.json', 'rb') as file:
+    with open(DATASET.root / 'vsm_similarity.json', 'rb') as file:
         module = json.load(file)
     out = []
     for m in module:

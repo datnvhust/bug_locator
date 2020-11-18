@@ -152,32 +152,32 @@ class Parser:
             else:
                 package_name = None
             
-            # if self.name == 'aspectj':
-            print(os.path.relpath(src_file, start=self.src))
-            src_files[os.path.relpath(src_file, start=self.src)] = SourceFile(
-                src, comments, class_names, attributes,
-                method_names, variables,
-                [os.path.basename(src_file).split('.')[0]],
-                package_name,
-                os.path.relpath(src_file, start=self.src),
-                x
-            )
-            # else:
-            #     # If source file has package declaration
-            #     if package_name:
-            #         src_id = (package_name + '.' + 
-            #                   os.path.basename(src_file))
-            #     else:
-            #         src_id = os.path.basename(src_file)
-            #     print(src_id)
-            #     src_files[src_id] = SourceFile(
-            #         src, comments, class_names, attributes,
-            #         method_names, variables,
-            #         [os.path.basename(src_file).split('.')[0]],
-            #         package_name,
-            #         src_id,
-            #         src
-            #     )
+            if self.name == 'aspectj':
+                print(os.path.relpath(src_file, start=self.src))
+                src_files[os.path.relpath(src_file, start=self.src)] = SourceFile(
+                    src, comments, class_names, attributes,
+                    method_names, variables,
+                    [os.path.basename(src_file).split('.')[0]],
+                    package_name,
+                    os.path.relpath(src_file, start=self.src),
+                    x
+                )
+            else:
+                # If source file has package declaration
+                if package_name:
+                    src_id = (package_name + '.' + 
+                              os.path.basename(src_file))
+                else:
+                    src_id = os.path.basename(src_file)
+                print(src_id)
+                src_files[src_id] = SourceFile(
+                    src, comments, class_names, attributes,
+                    method_names, variables,
+                    [os.path.basename(src_file).split('.')[0]],
+                    package_name,
+                    src_id,
+                    src
+                )
         
         return src_files
 
