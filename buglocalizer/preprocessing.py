@@ -183,7 +183,7 @@ class ReportPreprocessing:
         # self.remove_java_keywords()
         # self.stem()
         for bug in self.bug_reports.values():
-            bug.summary = preprocess(bug.summary)
+            bug.summary = preprocess(bug.summary + bug.description)
 
 class SrcPreprocessing:
     """Class to preprocess source codes"""

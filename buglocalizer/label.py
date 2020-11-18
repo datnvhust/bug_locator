@@ -9,9 +9,11 @@ def label(bug_reports, src_files):
     for i, bug in enumerate(bug_reports.values()):
         b = []
         for files in bug.fixed_files:
-            print(files)
+            array_split = files.split('\\')
+            exact_file_name = ".".join(array_split)
+            # print(exact_file_name)
             for src in src_files:
-                if files in src:
+                if exact_file_name in src:
                     b.append(src_files.index(src))
         results.append(b)
     # print(len(src_files))

@@ -10,7 +10,7 @@ from tfidf import TFIDFVectorizer
 from datasets import DATASET
 import math
 
-def getVocab(src_files, bug_reports):
+def getVocab(src_files, bug_reports, alpha):
     vocab = []
     docs_report = []
     docs_source = []
@@ -45,7 +45,6 @@ def getVocab(src_files, bug_reports):
     report_idf = []
     for doc in docs_report:
         for word in doc:
-            print(word, doc)
             doc[word] = tfidf.tfidf(word, doc, docs_report)
         row = []
         for f in vocab:
@@ -80,18 +79,33 @@ def getVocab(src_files, bug_reports):
     print("source_idf")
     print([Minterm_sf, Maxterm_sf])
     for value in value_g:
-        print(value)
-        print(1/( 1+ math.exp(-(value-Minterm_sf)/(Maxterm_sf-Minterm_sf)) ))
         matrix_g.append(1/( 1+ math.exp(-(value-Minterm_sf)/(Maxterm_sf-Minterm_sf)) ))
     # print(matrix_g)
     report_idf = np.array(report_idf)
     source_idf = np.array(source_idf)
     output = matrix_sim(report_idf, source_idf).tolist()
+    cosine_similarity_br = matrix_sim(report_idf, report_idf).tolist()
+    with open(DATASET.root / 'name_src_label_1.json', 'rb') as file:
+        label_1 = json.load(file)
+    sim_simi = []
+    for i, b1 in enumerate(cosine_similarity_br):
+        sim_x = []
+        for s, source in enumerate(src_files.values()):
+            sim = 0
+            for j, b2 in enumerate(b1):
+                if j >= i:
+                    break
+                if(s in label_1[j]):
+                    sim += cosine_similarity_br[i][j]/len(label_1[j])
+            sim_x.append(sim)
+        sim_simi.append(sim_x)
     out = []
+    print(output[1][23], matrix_g[23], sim_simi[1][23])
+    print(output[1][60], matrix_g[60], sim_simi[1][60])
     for i, bug in enumerate(output):
         out_x = []
         for j, source in enumerate(bug):
-            out_x.append(source * matrix_g[j])
+            out_x.append((1 - alpha) * (source * matrix_g[j]) + alpha * sim_simi[i][j])
         out.append(out_x)
     return out
 
@@ -112,7 +126,7 @@ def main():
         src_files = pickle.load(file)
     with open(DATASET.root / 'preprocessed_reports.pickle', 'rb') as file:
         bug_reports = pickle.load(file)
-    simis = getVocab(src_files, bug_reports)
+    simis = getVocab(src_files, bug_reports, 0.2)
     # sm = Similarity(src_files)
     # simis = sm.find_similars(bug_reports)
     
