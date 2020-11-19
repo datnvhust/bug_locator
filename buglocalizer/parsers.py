@@ -104,6 +104,7 @@ class Parser:
             attributes = []
             method_names = []
             variables = []
+            names = []
 
             # Source parsing
             parse_tree = None
@@ -145,13 +146,15 @@ class Parser:
                     class_names.append(token[1])
                 elif token[0] is Token.Name.Function:
                     method_names.append(token[1])
+                elif token[0] is Token.Name:
+                    names.append(token[1])
             
             # Get the package declaration if exists
             if parse_tree and parse_tree.package:
                 package_name = parse_tree.package.name
             else:
                 package_name = None
-            
+            pre = preprocess(comments + ' '.join(class_names) + ' '.join(attributes) + ' '.join(method_names) + ' '.join(variables) + ' '.join(names)) + preprocess(' '.join(method_names), split=False)
             if self.name == 'aspectj':
                 print(os.path.relpath(src_file, start=self.src))
                 src_files[os.path.relpath(src_file, start=self.src)] = SourceFile(
@@ -160,7 +163,7 @@ class Parser:
                     [os.path.basename(src_file).split('.')[0]],
                     package_name,
                     os.path.relpath(src_file, start=self.src),
-                    x
+                    pre
                 )
             else:
                 # If source file has package declaration
@@ -176,7 +179,7 @@ class Parser:
                     [os.path.basename(src_file).split('.')[0]],
                     package_name,
                     src_id,
-                    src
+                    pre
                 )
         
         return src_files

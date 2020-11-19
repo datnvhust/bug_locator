@@ -45,10 +45,11 @@ def clean_sent(string):
     string = re.sub(r"\s{2,}", " ", string)
     return string
 
-def tokenize(sent):
+def tokenize(sent, split):
     """Tokenizing bug reports into tokens"""
     sent = clean_sent(sent)
-    # sent = split_camelcase(sent)
+    if split:
+        sent = split_camelcase(sent)
     sent_tokens = nltk.regexp_tokenize(sent,pattern = '\w+|$[\d\.]+|\S+')
 
     # sent_tokens = sent_tokens[2:]
@@ -95,10 +96,10 @@ def stem(token_list):
     return token_stem
 
 
-def preprocess(sent):
+def preprocess(sent, split = True):
 
     # 分词
-    token = tokenize(sent)
+    token = tokenize(sent, split)
 
     # 正则化
     token = normalize(token)

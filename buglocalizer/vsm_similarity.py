@@ -16,11 +16,11 @@ class Similarity:
     
     def __init__(self, src_files):
         self.src_files = src_files
-        self.src_strings = [' '.join(src.file_name['stemmed'] + src.class_names['stemmed']
-                                     + src.method_names['stemmed'] + src.pos_tagged_comments['stemmed']
-                                     + src.attributes['stemmed'])
+        # self.src_strings = [' '.join(src.file_name['stemmed'] + src.class_names['stemmed']
+        #                              + src.method_names['stemmed'] + src.pos_tagged_comments['stemmed']
+        #                              + src.attributes['stemmed'])
+        self.src_strings = [' '.join(src.src_all)
                             for src in self.src_files.values()]
-    
     def calculate_similarity(self, src_tfidf, reports_tfidf):
         """Calculatnig cosine similarity between source files and bug reports"""
         # Normalizing the length of source files

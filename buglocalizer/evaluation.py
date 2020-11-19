@@ -82,10 +82,8 @@ def evaluate(src_files, bug_reports, final_scores):
         # Finding source codes from the simis indices
         src_ranks, _ = zip(*sorted(zip(src_files.keys(), final_scores[i]),
                                    key=operator.itemgetter(1), reverse=True))
-        print(src_ranks)
         # Getting reported fixed files
         fixed_files = report.fixed_files
-        print(fixed_files)
         
         # Iterating over top n
         for k, rank in enumerate(top_n):
